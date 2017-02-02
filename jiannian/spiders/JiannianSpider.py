@@ -78,10 +78,10 @@ class JiannianSpider(CrawlSpider):
             yield item
 
 
-            # for i in range(2,839):
-            #     nexturl = 'http://www.jianshu.com/c/063d8408c9b4?order_by=added_at&page=%s'%i
-            #
-            #     yield Request(nexturl,callback=self.parse)
+            for i in range(2,839):
+                nexturl = 'http://www.jianshu.com/c/063d8408c9b4?order_by=added_at&page=%s'%i
+
+                yield Request(nexturl,callback=self.parse)
 
 
     def parse_author(self,response):
