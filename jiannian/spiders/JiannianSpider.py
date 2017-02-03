@@ -43,7 +43,9 @@ class JiannianSpider(CrawlSpider):
 
         item['inclu'] = cols
 
-        yield Request(author_url, self.parse_author, meta={'item': item})
+        yield item
+
+        #yield Request(author_url, self.parse_author, meta={'item': item})
 
 
 
@@ -100,7 +102,7 @@ class JiannianSpider(CrawlSpider):
             yield Request(url,self.parse_article,meta={'item':item})
 
 
-            for i in range(2,839):
+            for i in range(2,942):
                 nexturl = 'http://www.jianshu.com/c/063d8408c9b4?order_by=added_at&page=%s'%i
 
                 yield Request(nexturl,callback=self.parse)
@@ -137,6 +139,7 @@ class JiannianSpider(CrawlSpider):
 
 
     ###到作者主页,主要是获取该作者一共写了多少篇文章
+    ### ?? 这是一个冗余数据, 抓取时判断重复url 
     def parse_author(self,response):
 
         selector = Selector(response)

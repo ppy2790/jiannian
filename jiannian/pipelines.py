@@ -42,11 +42,14 @@ class WebcrawlerScrapyPipeline(object):
 
     # 写入数据库中
     def _conditional_insert(self, tx, item):
-        # sql = "insert into lagou(jobname,joburl,jobsalary,jobexpyear,jobpubday,companyname,companytype,companylevel,jobdesc,edu) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+
+        #sql = "insert into jiannian(article,author,url,readss,comments,likess,rewards,article_words,inclu,author_url,pub_day,focus_num,fan_num,article_num,word_num,like_num) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+        #params = (item['article'],item['author'],item['url'],item['reads'],item['comments'],item['likes'],item['rewards'],item['wordage'],item['inclu'],item['author_url'],item['pub_day'],item['focus_num'],item['fan_num'],item['article_num'],item['word_num'],item['like_num'])
 
 
-        sql = "insert into jiannian(article,author,url,readss,comments,likess,rewards,article_words,inclu,author_url,pub_day,focus_num,fan_num,article_num,word_num,like_num) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
-        params = (item['article'],item['author'],item['url'],item['reads'],item['comments'],item['likes'],item['rewards'],item['wordage'],item['inclu'],item['author_url'],item['pub_day'],item['focus_num'],item['fan_num'],item['article_num'],item['word_num'],item['like_num'])
+        sql = "insert into jiannian(article,author,url,readss,comments,likess,rewards,article_words,inclu,author_url,pub_day) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+        params = (item['article'],item['author'],item['url'],item['reads'],item['comments'],item['likes'],item['rewards'],item['wordage'],item['inclu'],item['author_url'],item['pub_day'])
+
         tx.execute(sql, params)
 
 
