@@ -22,14 +22,14 @@ class JiannianSpider(CrawlSpider):
         'http://www.jianshu.com/c/063d8408c9b4?order_by=added_at&page=1'
 
         #'http://www.jianshu.com/u/21cc2f606243'
+        #'http://www.jianshu.com/p/8a55aa52393c',
+        #'http://www.jianshu.com/p/32ec83b3688f'
     ]
 
     def parse(self, response):
         selector = Selector(response)
 
         infos = selector.xpath("//ul[@class='note-list']/li")
-
-
 
         for info in infos:
 
@@ -77,15 +77,29 @@ class JiannianSpider(CrawlSpider):
             item['author_url'] = author_url
             item['pub_day']=pub_day
 
-            #yield item
-
-            yield Request(author_url,self.parse_author,meta={'item':item})
+            yield Request(url,self.parse_article,meta={'item':item})
 
 
-            # for i in range(2,839):
-            #     nexturl = 'http://www.jianshu.com/c/063d8408c9b4?order_by=added_at&page=%s'%i
-            #
-            #     yield Request(nexturl,callback=self.parse)
+            for i in range(2,839):
+                nexturl = 'http://www.jianshu.com/c/063d8408c9b4?order_by=added_at&page=%s'%i
+
+                yield Request(nexturl,callback=self.parse)
+
+
+    def parse_article(self,response):
+
+        selector = Selector(response)
+
+        wordage = selector.xpath("//span[@class='wordage']/text()").extract()[0]
+
+        wordage = int(filter(str.isdigit,str(wordage)))
+
+        item = response.meta['item']
+        author_url = item['author_url']
+        item['wordage'] = wordage
+
+        yield Request(author_url, self.parse_author, meta={'item': item})
+
 
 
     def parse_author(self,response):
@@ -109,19 +123,18 @@ class JiannianSpider(CrawlSpider):
         item['word_num'] = word_num
         item['like_num'] = like_num
 
-
-
         yield item
-
-
-
-
 
 
         ## 从动态中抓取作者的注册时间
         ## 'http://www.jianshu.com/users/21cc2f606243/timeline?max_id=91276055&page=2'
         ## 问题 如何分页
+        ##
         ## 问题 selenium可以实现分页操作  Scrapy+selenium 怎么整合
+
+        ## 问题: 如何在一篇文章中抓取被哪些专题收录
+        ## A: 发现, 收录信息采用的异步加载 url如:http://www.jianshu.com/notes/8740848/included_collections?page=1
+        ##    但是访问这个url得不到数据
 
 
 

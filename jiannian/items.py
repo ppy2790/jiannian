@@ -26,3 +26,5 @@ class ArticleItem(Item):
     word_num = Field()
     like_num = Field()
 
+    wordage = Field()
+
