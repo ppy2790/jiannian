@@ -6,6 +6,8 @@ from scrapy.selector import Selector
 
 from jiannian.items import  ArticleItem
 
+import json
+
 
 
 
@@ -21,10 +23,29 @@ class JiannianSpider(CrawlSpider):
     start_urls=[
         'http://www.jianshu.com/c/063d8408c9b4?order_by=added_at&page=1'
 
-        #'http://www.jianshu.com/u/21cc2f606243'
-        #'http://www.jianshu.com/p/8a55aa52393c',
-        #'http://www.jianshu.com/p/32ec83b3688f'
+        #'http://www.jianshu.com/p/72d082bf0ffb'  #测试文章url ,测试json用
+        #'http://www.jianshu.com/p/320d06ef30bb'
     ]
+
+    ## 解析json 数据,获得收录专题的title
+    def parse_json(self,response):
+
+        item = response.meta['item']
+        author_url = item['author_url']
+
+        data = json.loads(response.body)
+        collect =  data['collections']
+        cols=''
+        if len(collect) >0 :
+            for cc in collect:
+                cols +=  cc['title']+';'
+
+
+        item['inclu'] = cols
+
+        yield Request(author_url, self.parse_author, meta={'item': item})
+
+
 
     def parse(self, response):
         selector = Selector(response)
@@ -85,6 +106,8 @@ class JiannianSpider(CrawlSpider):
                 yield Request(nexturl,callback=self.parse)
 
 
+    ##到文章页面,获取这篇文章有多少字, 被哪些专题收录了
+    ## 专题收录是json数据, 先要构造 json 目标url
     def parse_article(self,response):
 
         selector = Selector(response)
@@ -97,10 +120,23 @@ class JiannianSpider(CrawlSpider):
         author_url = item['author_url']
         item['wordage'] = wordage
 
-        yield Request(author_url, self.parse_author, meta={'item': item})
+        #-------json url---------
+        infos = selector.xpath("//meta/@content").extract()
+        id = ''
+
+        for info in infos:
+            if (str(info).find('jianshu://notes/')) ==0 :
+                id = filter(str.isdigit,str(info))
+                break;
+
+        collection_url ='http://www.jianshu.com/notes/%s/included_collections.json'%id
+
+        #--------------------------
+
+        yield Request(collection_url,callback=self.parse_json,meta={'item': item})
 
 
-
+    ###到作者主页,主要是获取该作者一共写了多少篇文章
     def parse_author(self,response):
 
         selector = Selector(response)
@@ -133,7 +169,7 @@ class JiannianSpider(CrawlSpider):
 
         ## 问题: 如何在一篇文章中抓取被哪些专题收录
         ## A: 发现, 收录信息采用的异步加载 url如:http://www.jianshu.com/notes/8740848/included_collections?page=1
-        ##    但是访问这个url得不到数据
+        ##    但是访问这个url得不到数据  ---> OK
 
         ## 问题: 抓取了冗余数据,Srapy如何操作数据库多个表(主从表)
         ## A: 感觉不行,还是要自己写一个爬取写入数据库多个表的

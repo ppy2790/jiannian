@@ -27,4 +27,5 @@ class ArticleItem(Item):
     like_num = Field()
 
     wordage = Field()
+    inclu = Field()
 

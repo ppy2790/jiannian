@@ -93,7 +93,7 @@ USER_AGENT ='Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; TencentTraveler 
 
 
 ROBOTSTXT_OBEY=False
-DOWNLOAD_DELAY = 1 #  delay
+DOWNLOAD_DELAY = 0.25 #  delay
 
 # FEED_URI=u'/Users/apple/Desktop/jian-nian-articles.csv'
 # FEED_FORMAT='csv'
