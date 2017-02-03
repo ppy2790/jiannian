@@ -19,3 +19,10 @@ class ArticleItem(Item):
     rewards = Field()
     author_url = Field()
     pub_day = Field()
+
+    focus_num = Field()
+    fan_num = Field()
+    article_num = Field()
+    word_num = Field()
+    like_num = Field()
+

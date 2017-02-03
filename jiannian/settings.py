@@ -95,8 +95,8 @@ USER_AGENT ='Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; TencentTraveler 
 ROBOTSTXT_OBEY=False
 DOWNLOAD_DELAY = 0.25 #  delay
 
-FEED_URI=u'/Users/apple/Desktop/jian-nian-articles.csv'
-FEED_FORMAT='csv'
+# FEED_URI=u'/Users/apple/Desktop/jian-nian-articles.csv'
+# FEED_FORMAT='csv'
 
 USER_AGENT_LIST=[
     "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/22.0.1207.1 Safari/537.1",
@@ -124,3 +124,17 @@ USER_AGENT_LIST=[
 #     'xiaozhu.user_agent_middleware.RandomUserAgentMiddleware': 400,
 #     'scrapy.contrib.downloadermiddleware.useragent.UserAgentMiddleware': None,
 # }
+
+ITEM_PIPELINES = {
+    'jiannian.pipelines.WebcrawlerScrapyPipeline': 300,#保存到mysql数据库
+    #'webCrawler_scrapy.pipelines.JsonWithEncodingPipeline': 300,#保存到文件中
+}
+
+#Mysql数据库的配置信息
+MYSQL_HOST = '127.0.0.1'
+MYSQL_DBNAME = 'testdb'         #数据库名字，请修改
+MYSQL_USER = 'root'             #数据库账号，请修改
+MYSQL_PASSWD = '1234567'         #数据库密码，请修改
+
+MYSQL_PORT = 3306               #数据库端口，在dbhelper中使用
+

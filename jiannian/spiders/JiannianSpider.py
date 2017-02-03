@@ -29,9 +29,11 @@ class JiannianSpider(CrawlSpider):
 
         infos = selector.xpath("//ul[@class='note-list']/li")
 
-        item = ArticleItem()
+
 
         for info in infos:
+
+            item = ArticleItem()
 
             article = info.xpath('div/a/text()').extract()[0]
             url = 'http://www.jianshu.com'+str(info.xpath('div/a/@href').extract()[0])
@@ -64,7 +66,7 @@ class JiannianSpider(CrawlSpider):
             else:
                 rewards = 0
 
-
+            print author
             item['author']=author
             item['url'] = url
             item['article'] = article
@@ -75,13 +77,15 @@ class JiannianSpider(CrawlSpider):
             item['author_url'] = author_url
             item['pub_day']=pub_day
 
-            yield item
+            #yield item
+
+            yield Request(author_url,self.parse_author,meta={'item':item})
 
 
-            for i in range(2,839):
-                nexturl = 'http://www.jianshu.com/c/063d8408c9b4?order_by=added_at&page=%s'%i
-
-                yield Request(nexturl,callback=self.parse)
+            # for i in range(2,839):
+            #     nexturl = 'http://www.jianshu.com/c/063d8408c9b4?order_by=added_at&page=%s'%i
+            #
+            #     yield Request(nexturl,callback=self.parse)
 
 
     def parse_author(self,response):
@@ -90,11 +94,27 @@ class JiannianSpider(CrawlSpider):
 
         infos = selector.xpath("//div[@class='meta-block']/p/text()").extract()
 
+        item = response.meta['item']
+
+
         focus_num= int(str(infos[0]))
         fan_num= int(str(infos[1]))
         article_num = int(str(infos[2]))
         word_num = int(str(infos[3]))
         like_num = int(str(infos[4]))
+
+        item['focus_num']= focus_num
+        item['fan_num'] = fan_num
+        item['article_num'] = article_num
+        item['word_num'] = word_num
+        item['like_num'] = like_num
+
+
+
+        yield item
+
+
+
 
 
 
