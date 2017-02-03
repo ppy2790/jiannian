@@ -66,7 +66,6 @@ class JiannianSpider(CrawlSpider):
             else:
                 rewards = 0
 
-            print author
             item['author']=author
             item['url'] = url
             item['article'] = article
@@ -135,6 +134,10 @@ class JiannianSpider(CrawlSpider):
         ## 问题: 如何在一篇文章中抓取被哪些专题收录
         ## A: 发现, 收录信息采用的异步加载 url如:http://www.jianshu.com/notes/8740848/included_collections?page=1
         ##    但是访问这个url得不到数据
+
+        ## 问题: 抓取了冗余数据,Srapy如何操作数据库多个表(主从表)
+        ## A: 感觉不行,还是要自己写一个爬取写入数据库多个表的
+
 
 
 
