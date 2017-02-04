@@ -43,12 +43,17 @@ class WebcrawlerScrapyPipeline(object):
     # 写入数据库中
     def _conditional_insert(self, tx, item):
 
+        ## 去掉的sql
         #sql = "insert into jiannian(article,author,url,readss,comments,likess,rewards,article_words,inclu,author_url,pub_day,focus_num,fan_num,article_num,word_num,like_num) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
         #params = (item['article'],item['author'],item['url'],item['reads'],item['comments'],item['likes'],item['rewards'],item['wordage'],item['inclu'],item['author_url'],item['pub_day'],item['focus_num'],item['fan_num'],item['article_num'],item['word_num'],item['like_num'])
 
 
         sql = "insert into jiannian(article,author,url,readss,comments,likess,rewards,article_words,inclu,author_url,pub_day) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
         params = (item['article'],item['author'],item['url'],item['reads'],item['comments'],item['likes'],item['rewards'],item['wordage'],item['inclu'],item['author_url'],item['pub_day'])
+
+        ## 抓取作者信息的sql 对应 AuthorSpider -- AuthorItem
+        #sql = "insert into jiannian_author(author,author_url,focus_num,fan_num,article_num,word_num,like_num) values(%s,%s,%s,%s,%s,%s,%s)"
+        #params = (item['author_name'], item['author_url'], item['focus_num'], item['fan_num'], item['article_num'], item['word_num'], item['like_num'])
 
         tx.execute(sql, params)
 

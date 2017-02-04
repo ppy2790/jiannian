@@ -29,3 +29,14 @@ class ArticleItem(Item):
     wordage = Field()
     inclu = Field()
 
+
+class AuthorItem(Item):
+
+    author_url = Field()
+    author_name = Field()
+    focus_num = Field()
+    fan_num = Field()
+    article_num = Field()
+    word_num = Field()
+    like_num = Field()
+

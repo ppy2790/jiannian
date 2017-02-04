@@ -93,10 +93,10 @@ USER_AGENT ='Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; TencentTraveler 
 
 
 ROBOTSTXT_OBEY=False
-DOWNLOAD_DELAY = 0.1 #  delay
+DOWNLOAD_DELAY = 0.25 #  delay
 
-# FEED_URI=u'/Users/apple/Desktop/jian-nian-articles.csv'
-# FEED_FORMAT='csv'
+FEED_URI=u'/Users/apple/Desktop/jian-nian.csv'
+FEED_FORMAT='csv'
 
 USER_AGENT_LIST=[
     "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/22.0.1207.1 Safari/537.1",

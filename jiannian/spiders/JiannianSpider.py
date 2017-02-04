@@ -21,8 +21,10 @@ class JiannianSpider(CrawlSpider):
     name = 'jiannian'
 
     start_urls=[
-        'http://www.jianshu.com/c/063d8408c9b4?order_by=added_at&page=1'
-
+        #'http://www.jianshu.com/c/063d8408c9b4?order_by=added_at&page=1' ## 简年 万人万字 8587篇
+        #'http://www.jianshu.com/c/a8aa904095e4?order_by=added_at&page=1' ##妙笔福 33篇
+        #'http://www.jianshu.com/c/ba695c8d02b8?order_by=added_at&page=1' ##慧眼福 34篇
+        #'http://www.jianshu.com/c/71e0ef2c9cee?order_by=added_at&page=1' ##泉思福 50篇
         #'http://www.jianshu.com/p/72d082bf0ffb'  #测试文章url ,测试json用
         #'http://www.jianshu.com/p/320d06ef30bb'
     ]
@@ -102,8 +104,12 @@ class JiannianSpider(CrawlSpider):
             yield Request(url,self.parse_article,meta={'item':item})
 
 
-            for i in range(2,942):
+            for i in range(2,956):
+            #for i in range(2, 7):
                 nexturl = 'http://www.jianshu.com/c/063d8408c9b4?order_by=added_at&page=%s'%i
+                #nexturl = 'http://www.jianshu.com/c/a8aa904095e4?order_by=added_at&page=%s' % i
+                #nexturl = 'http://www.jianshu.com/c/ba695c8d02b8?order_by=added_at&page=%s' % i
+                #nexturl = 'http://www.jianshu.com/c/71e0ef2c9cee?order_by=added_at&page=%s' % i
 
                 yield Request(nexturl,callback=self.parse)
 
@@ -139,7 +145,9 @@ class JiannianSpider(CrawlSpider):
 
 
     ###到作者主页,主要是获取该作者一共写了多少篇文章
-    ### ?? 这是一个冗余数据, 抓取时判断重复url 
+    ### ?? 这是一个冗余数据, 抓取时判断重复url
+    ###    最后在这里 yied 重复url!
+    ### 此方法去掉,另写一个Spider
     def parse_author(self,response):
 
         selector = Selector(response)
