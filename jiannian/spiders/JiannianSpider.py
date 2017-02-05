@@ -21,7 +21,7 @@ class JiannianSpider(CrawlSpider):
     name = 'jiannian'
 
     start_urls=[
-        #'http://www.jianshu.com/c/063d8408c9b4?order_by=added_at&page=1' ## 简年 万人万字 8587篇
+        'http://www.jianshu.com/c/063d8408c9b4?order_by=added_at&page=1' ## 简年 万人万字 8587篇
         #'http://www.jianshu.com/c/a8aa904095e4?order_by=added_at&page=1' ##妙笔福 33篇
         #'http://www.jianshu.com/c/ba695c8d02b8?order_by=added_at&page=1' ##慧眼福 34篇
         #'http://www.jianshu.com/c/71e0ef2c9cee?order_by=added_at&page=1' ##泉思福 50篇
